@@ -7,6 +7,7 @@ from rich.table import Table
 from rich.console import Console
 import json
 
+
 def ingest_rates():
     api_key = os.environ["API_KEY"]
     url = f"https://openexchangerates.org/api/latest.json?app_id={api_key}"
@@ -14,10 +15,13 @@ def ingest_rates():
 
     with open("./rates.json", "w") as rates_json:
         rates_json.write(json.dumps(response.json()))
-    
-    _print("[bold green] Today's exchange rates have finished downloading [/bold green]")
 
-def get_valid_names(letter: str = 'A') -> None:
+    _print(
+        "[bold green] Today's exchange rates have finished downloading [/bold green]"
+    )
+
+
+def get_valid_names(letter: str = "A") -> None:
     """
     Returns a table containing names of valid currency names
     """
@@ -27,6 +31,6 @@ def get_valid_names(letter: str = 'A') -> None:
         rates = json.load(r_json).get("rates")
         currency_table = Table("Currency Names")
         for key in rates:
-                if key[0] == _letter:
-                    currency_table.add_row(key)
+            if key[0] == _letter:
+                currency_table.add_row(key)
         console.print(currency_table)

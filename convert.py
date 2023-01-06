@@ -4,6 +4,7 @@ from rich.console import Console
 from rich.table import Table
 from rich import print as _print
 
+
 class FXConverter:
     def __init__(
         self,
@@ -42,7 +43,9 @@ class FXConverter:
             to = self.to
         if not self.rates.get(convert) or self.rates.get(to) is None:
             _print("[bold red] Please use a valid currency name [/bold red]")
-            _print("[red] To see valid currency names, use the command [/red]: [yellow] valid-currency-names [/yellow]")
+            _print(
+                "[red] To see valid currency names, use the command [/red]: [yellow] valid-currency-names [/yellow]"
+            )
             raise typer.Exit()
 
         amount_in_new_currency = "{:.2f}".format(
@@ -53,4 +56,3 @@ class FXConverter:
         result_table.add_column(to, style="green")
         result_table.add_row(f"{amount} {convert}", f"{amount_in_new_currency} {to}")
         self.console.print(result_table)
-    
