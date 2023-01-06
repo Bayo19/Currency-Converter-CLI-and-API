@@ -17,14 +17,16 @@ def ingest_rates():
     
     _print("[bold green] Today's exchange rates have finished downloading [/bold green]")
 
-def get_valid_names() -> None:
+def get_valid_names(letter: str = 'A') -> None:
     """
     Returns a table containing names of valid currency names
     """
+    _letter = letter.upper()
     console = Console()
     with open("./rates.json", "r") as r_json:
         rates = json.load(r_json).get("rates")
         currency_table = Table("Currency Names")
         for key in rates:
-                currency_table.add_row(key)
+                if key[0] == _letter:
+                    currency_table.add_row(key)
         console.print(currency_table)

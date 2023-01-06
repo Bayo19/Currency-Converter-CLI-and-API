@@ -20,8 +20,8 @@ def download_todays_rates():
     ingest_rates()
 
 @app.command()
-def valid_currency_names():
-    get_valid_names()
+def valid_currency_names(first_letter: str = typer.Argument("A", help="first letter of currency acronym")):
+    get_valid_names(first_letter)
 
 if __name__ == "__main__":
     app()
