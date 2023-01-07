@@ -22,8 +22,8 @@ class FXConverter:
     def convert_currency_(
         self,
         amount: int,
-        convert: str = typer.Option(default="USD", help="Currency to convert from"),
-        to: str = typer.Option(default="GBP", help="Currency to convert to"),
+        convert: str,
+        to: str,
     ):
 
         """
