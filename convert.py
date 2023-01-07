@@ -8,9 +8,6 @@ from rich.table import Table
 class FXConverter:
     def __init__(
         self,
-        amount: int,
-        convert: str = typer.Option(default="USD", help="Currency to convert from"),
-        to: str = typer.Option(default="GBP", help="Currency to convert to"),
         rates_file_path: str = "./rates.json",
     ) -> None:
 
@@ -18,18 +15,15 @@ class FXConverter:
             self.rates = json.load(rates_json).get("rates")
         self.console = Console()
         self.currency_table = Table("Currency Names")
-        self.amount = amount
-        self.convert = convert
-        self.to = to
 
         for key in self.rates:
             self.currency_table.add_row(key)
 
     def convert_currency_(
         self,
-        amount: int = None,
-        convert: str = None,
-        to: str = None,
+        amount: int,
+        convert: str = typer.Option(default="USD", help="Currency to convert from"),
+        to: str = typer.Option(default="GBP", help="Currency to convert to"),
     ):
 
         """

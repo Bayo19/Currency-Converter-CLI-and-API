@@ -18,7 +18,7 @@ def ingest_rates():
     response = requests.get(url, headers={"accept": "application/json"})
 
     with open("./rates.json", "w") as rates_json:
-        rates_json.write(json.dumps(response.json()))
+        rates_json.write(response.text)
 
     rich.print(
         "[bold green] Today's exchange rates have finished downloading [/bold green]"

@@ -7,13 +7,13 @@ app = typer.Typer()
 
 @app.command()
 def convert_currency(
-    amount: int = typer.Argument(1),
-    convert: str = typer.Option(default="USD", help="Currency to convert from"),
-    to: str = typer.Option(default="GBP", help="Currency to convert to"),
+    amount: int,
+    convert: str = typer.Option(default="USD"),
+    to: str = typer.Option(default="GBP"),
 ):
     """Converts currency"""
-    converter = FXConverter(amount=amount, convert=convert, to=to)
-    converter.convert_currency_()
+    converter = FXConverter()
+    converter.convert_currency_(amount=amount, convert=convert, to=to)
 
 
 @app.command()
