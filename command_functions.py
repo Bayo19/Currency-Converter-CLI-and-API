@@ -27,7 +27,7 @@ def ingest_rates():
 
 def get_valid_names(letter: str = "A") -> None:
     """
-    Returns a table containing names of valid currency names
+    Returns a table containing list of valid currency names
     """
     _letter = letter.upper()
     console = Console()
