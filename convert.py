@@ -1,8 +1,8 @@
 import typer
 import json
+import rich
 from rich.console import Console
 from rich.table import Table
-from rich import print as _print
 
 
 class FXConverter:
@@ -42,8 +42,8 @@ class FXConverter:
         if to is None:
             to = self.to
         if not self.rates.get(convert) or self.rates.get(to) is None:
-            _print("[bold red] Please use a valid currency name [/bold red]")
-            _print(
+            rich.print("[bold red] Please use a valid currency name [/bold red]")
+            rich.print(
                 "[red] To see valid currency names, use the command [/red]: [yellow] valid-currency-names [/yellow]"
             )
             raise typer.Exit()

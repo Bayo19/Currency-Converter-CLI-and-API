@@ -37,4 +37,5 @@ def get_valid_names(letter: str = "A") -> None:
     for key in rates:
         if key[0] == _letter:
             currency_table.add_row(key)
+
     console.print(currency_table)

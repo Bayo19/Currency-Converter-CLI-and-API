@@ -24,6 +24,8 @@ def download_latest_rates():
 def valid_currency_names(
     first_letter: str = typer.Argument("A", help="first letter of currency acronym")
 ):
+    if len(first_letter) > 1:
+        raise typer.Exit()
     get_valid_names(first_letter)
 
 
