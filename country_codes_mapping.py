@@ -12,8 +12,4 @@ _rows = [
     ]
     for row in rows
 ]
-
-country_currency_codes = {}
-
-for row in _rows:
-    country_currency_codes[row[0]] = row[2]
+country_currency_codes = {row[0]: row[2] for row in _rows}

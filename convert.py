@@ -10,7 +10,7 @@ class FXConverter:
         self,
         rates_file_path: str = "./rates.json",
     ) -> None:
-
+    
         with open(rates_file_path, "r") as rates_json:
             self.rates = json.load(rates_json).get("rates")
         self.console = Console()
@@ -25,7 +25,6 @@ class FXConverter:
         convert: str,
         to: str,
     ):
-
         """
         Convert currency
         """
