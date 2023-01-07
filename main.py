@@ -16,7 +16,7 @@ def convert_currency(
 
 
 @app.command()
-def download_todays_rates():
+def download_latest_rates():
     ingest_rates()
 
 
