@@ -1,12 +1,12 @@
 import json
 import os
 import requests
-import api_keys
 import rich
 from rich.table import Table
 from rich.console import Console
 import json
-
+import api_keys
+from country_codes_mapping import country_currency_codes
 
 def ingest_rates():
     """
@@ -39,3 +39,18 @@ def get_valid_names(letter: str = "A") -> None:
             currency_table.add_row(key)
 
     console.print(currency_table)
+
+def get_country_code(country: str) -> None:
+    """
+    Returns a table containing a country and it's currency code given the country
+    """
+    console = Console()
+    table = Table("country", "currency code")
+    with open("./rates.json", "r") as r_json:
+        rates = json.load(r_json).get("rates")
+    
+    filtered_codes = dict(filter(lambda elem: country.upper() in elem[0], country_currency_codes.items()))
+    
+    row = tuple(filtered_codes.popitem())
+    table.add_row(country.upper(), row[1])
+    console.print(table)

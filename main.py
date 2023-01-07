@@ -1,6 +1,6 @@
 import typer
 from convert import FXConverter
-from command_functions import ingest_rates, get_valid_names
+from command_functions import ingest_rates, get_country_code
 
 app = typer.Typer()
 
@@ -26,17 +26,11 @@ def download_latest_rates():
 
 
 @app.command()
-def valid_currency_names(
-    first_letter: str = typer.Argument(
-        default="A", help="first letter of currency acronym"
-    )
-):
+def country_code(country: str):
     """
-    Returns a table containing list of valid currency names
+    Displays a table containing a country and it's currency code given the country
     """
-    if len(first_letter) > 1:
-        raise typer.Exit()
-    get_valid_names(first_letter)
+    get_country_code(country)
 
 
 if __name__ == "__main__":
