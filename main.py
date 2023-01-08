@@ -25,7 +25,7 @@ def convert_currency(
     if result is None:
         rich.print("[bold red] Please use a valid currency name [/bold red]")
         rich.print(
-            "[red] To see valid currency names, use the command [/red]: [yellow] valid-currency-names [/yellow]"
+            "[red] To find a countrys currency name, use the command [/red]: [yellow] country-code [/yellow]"
         )
         raise typer.Exit()
 
