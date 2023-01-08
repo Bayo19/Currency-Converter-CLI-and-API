@@ -16,3 +16,5 @@ _rows = [
     for row in rows
 ]
 country_currency_codes = {row[0]: row[2] for row in _rows}
+
+# TODO - https://practicaldatascience.co.uk/data-science/how-to-build-a-web-scraper-using-requests-html
