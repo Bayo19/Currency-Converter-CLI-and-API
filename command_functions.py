@@ -2,8 +2,8 @@ import json
 import os
 import requests
 import api_keys
-from country_codes_mapping import country_currency_codes
-from utilities import CountryCode
+from .country_codes_mapping import country_currency_codes
+from .utilities import CountryCode
 
 
 def ingest_rates() -> str:

@@ -1,6 +1,6 @@
 import pytest
-from utilities import CurrencyConversion
-from convert import FXConverter
+from ..utilities import CurrencyConversion
+from ..convert import FXConverter
 
 
 @pytest.mark.parametrize(
@@ -17,6 +17,17 @@ from convert import FXConverter
                 new_amount="{:.2f}".format(413.46),
             ),
         ),
+        (
+            69_500,
+            "JPY",
+            "GBP",
+            CurrencyConversion(
+                convert_from="JPY",
+                convert_to="GBP",
+                original_amount=69_500,
+                new_amount="{:.2f}".format(435.11),
+            ),
+        )
         
     ],
 )

@@ -2,8 +2,8 @@ import typer
 import rich
 from rich.table import Table
 from rich.console import Console
-from convert import FXConverter
-from command_functions import ingest_rates, get_country_code
+from .convert import FXConverter
+from .command_functions import ingest_rates, get_country_code
 
 app = typer.Typer()
 

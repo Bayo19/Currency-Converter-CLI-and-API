@@ -1,6 +1,6 @@
 import json
 from typing import Union
-from utilities import CurrencyConversion
+from .utilities import CurrencyConversion
 
 
 class FXConverter:
