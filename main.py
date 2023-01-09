@@ -33,7 +33,7 @@ def convert_currency(
     result_table.add_column(result.convert_to, style="green")
     result_table.add_row(
         f"{result.original_amount} {result.convert_from}",
-        f"{result.new_amount} {result.convert_to}",
+        f"{'{:.2f}'.format(result.new_amount)} {result.convert_to}",
     )
     console.print(result_table)
 

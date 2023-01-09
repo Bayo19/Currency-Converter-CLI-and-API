@@ -10,7 +10,7 @@ class FXConverter:
     ) -> None:
 
         with open(rates_file_path, "r") as rates_json:
-            self.rates = json.load(rates_json).get("rates")
+            self.rates: dict = json.load(rates_json).get("rates")
 
     def convert_currency_(
         self,
