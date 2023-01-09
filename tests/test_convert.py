@@ -27,8 +27,7 @@ from ..convert import FXConverter
                 original_amount=69_500,
                 new_amount="{:.2f}".format(435.11),
             ),
-        )
-        
+        ),
     ],
 )
 def test_convert_currency(amount, convert, to, expected):
