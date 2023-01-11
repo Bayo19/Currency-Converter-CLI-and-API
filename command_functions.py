@@ -29,9 +29,10 @@ def get_country_code(country: str) -> CountryCode:
     with open("./rates.json", "r") as r_json:
         rates = json.load(r_json).get("rates")
 
-    filtered_codes = dict(
-        filter(lambda elem: country.upper() in elem[0], country_currency_codes.items())
-    )
-
-    code = tuple(filtered_codes.popitem())[1]
+    filtered_codes = {k:v for k,v in country_currency_codes.items() if country.upper() in k}
+    print(filtered_codes)
+    code = list(v for v in filtered_codes.values())[0] # the key for the code doesn't always match the param: country
     return CountryCode(country=country.upper(), country_code=code)
+
+
+get_country_code("france")
