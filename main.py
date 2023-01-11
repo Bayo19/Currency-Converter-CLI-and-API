@@ -2,8 +2,9 @@ import typer
 import rich
 from rich.table import Table
 from rich.console import Console
-from .convert import FXConverter
-from .command_functions import ingest_rates, get_country_code
+from convert import FXConverter
+from command_functions import ingest_rates, get_country_code
+from ratesdb import con as _con, rates_to_db
 
 app = typer.Typer()
 
@@ -45,7 +46,8 @@ def download_latest_rates():
     to make them available for conversion queries
     """
     result = ingest_rates()
-    rich.print(f"[bold green] {result} [/bold green]")
+    rates_to_db(connection=_con, data=result.rates)
+    rich.print(f"[bold green] {result.message} [/bold green]")
 
 
 @app.command()
