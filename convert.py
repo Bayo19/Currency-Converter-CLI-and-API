@@ -1,6 +1,6 @@
 from typing import Union
 from utilities import CurrencyConversion
-from ratesdb import con as _con, get_rates
+from ratesdb import get_rates
 
 
 class FXConverter:
@@ -21,9 +21,7 @@ class FXConverter:
         db_query = (
             f"SELECT * FROM exchangerates WHERE currencycode = ? OR currencycode = ?"
         )
-        rates = dict(
-            get_rates(connection=_con, query=db_query, query_params=conversion_params)
-        )
+        rates = dict(get_rates(query=db_query, query_params=conversion_params))
 
         return CurrencyConversion(
             convert_from=convert,

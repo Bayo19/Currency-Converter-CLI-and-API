@@ -4,7 +4,7 @@ from rich.table import Table
 from rich.console import Console
 from convert import FXConverter
 from command_functions import ingest_rates, get_country_code
-from ratesdb import con as _con, rates_to_db
+from ratesdb import rates_to_db
 
 app = typer.Typer()
 
@@ -46,7 +46,7 @@ def download_latest_rates():
     to make them available for conversion queries
     """
     data = ingest_rates()
-    rates_to_db(connection=_con, data=data)
+    rates_to_db(data=data)
     rich.print(
         f"[bold green] Today's exchange rates have finished downloading [/bold green]"
     )
