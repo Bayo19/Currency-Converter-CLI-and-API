@@ -3,10 +3,6 @@ from typing import List
 from sqlite3 import Connection
 from utilities import CurrencyRate
 
-# con = sqlite3.connect("rates.db")
-# cur = con.cursor()
-# cur.execute("CREATE TABLE IF NOT EXISTS exchangerates(currencycode, rate)")
-
 
 def init_db(fn):
     initialised = False
