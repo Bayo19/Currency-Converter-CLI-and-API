@@ -1,10 +1,10 @@
 import sqlite3
-from typing import List
+from typing import List, Callable, Any
 from sqlite3 import Connection
 from utilities import CurrencyRate
 
 
-def init_db(fn):
+def init_db(fn: Callable[..., Any]) -> Callable[..., Any]:
     initialised = False
     con = sqlite3.connect("rates.db")
     cur = con.cursor()
