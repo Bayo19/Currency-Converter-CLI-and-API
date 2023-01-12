@@ -5,6 +5,7 @@ from country_codes_mapping import country_currency_codes
 from utilities import CountryCode, CurrencyRate
 from typing import List
 
+
 def ingest_rates() -> List[CurrencyRate]:
     """
     Downloads the latest exchange rates from openexchangerates.org and writes them to rates.json

@@ -18,8 +18,12 @@ class FXConverter:
         Converts currency
         """
         conversion_params = (convert, to)
-        db_query = f"SELECT * FROM exchangerates WHERE currencycode = ? OR currencycode = ?"
-        rates = dict(get_rates(connection=_con, query=db_query, query_params=conversion_params))
+        db_query = (
+            f"SELECT * FROM exchangerates WHERE currencycode = ? OR currencycode = ?"
+        )
+        rates = dict(
+            get_rates(connection=_con, query=db_query, query_params=conversion_params)
+        )
 
         return CurrencyConversion(
             convert_from=convert,

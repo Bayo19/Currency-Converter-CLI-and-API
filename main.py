@@ -47,7 +47,9 @@ def download_latest_rates():
     """
     data = ingest_rates()
     rates_to_db(connection=_con, data=data)
-    rich.print(f"[bold green] Today's exchange rates have finished downloading [/bold green]")
+    rich.print(
+        f"[bold green] Today's exchange rates have finished downloading [/bold green]"
+    )
 
 
 @app.command()
