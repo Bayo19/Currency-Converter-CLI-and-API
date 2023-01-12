@@ -1,16 +1,11 @@
-import json
 from typing import Union
-from .utilities import CurrencyConversion
+from utilities import CurrencyConversion
+from ratesdb import get_rates
 
 
 class FXConverter:
-    def __init__(
-        self,
-        rates_file_path: str = "./rates.json",
-    ) -> None:
-
-        with open(rates_file_path, "r") as rates_json:
-            self.rates: dict = json.load(rates_json).get("rates")
+    def __init__(self) -> None:
+        ...
 
     def convert_currency_(
         self,
@@ -18,23 +13,19 @@ class FXConverter:
         convert: str,
         to: str,
     ) -> Union[CurrencyConversion, None]:
+
         """
         Converts currency
         """
-        if amount is None:
-            amount = self.amount
-        if convert is None:
-            convert = self.convert
-        if to is None:
-            to = self.to
-        if not self.rates.get(convert) or self.rates.get(to) is None:
-            return None
+        conversion_params = (convert, to)
+        db_query = (
+            f"SELECT * FROM exchangerates WHERE currencycode = ? OR currencycode = ?"
+        )
+        rates = dict(get_rates(query=db_query, query_params=conversion_params))
 
         return CurrencyConversion(
             convert_from=convert,
             convert_to=to,
             original_amount=amount,
-            new_amount="{:.2f}".format(
-                (amount * self.rates.get(to)) / self.rates.get(convert)
-            ),
+            new_amount="{:.2f}".format((amount * rates.get(to)) / rates.get(convert)),
         )

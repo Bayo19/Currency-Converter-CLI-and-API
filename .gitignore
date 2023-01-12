@@ -2,3 +2,4 @@ api_keys.py
 __pycache__/
 rates.json
 cli_venv/
+rates.db
