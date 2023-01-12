@@ -2,10 +2,10 @@ import os
 import requests
 import api_keys
 from country_codes_mapping import country_currency_codes
-from utilities import CountryCode, CurrencyRate, Rates
+from utilities import CountryCode, CurrencyRate
+from typing import List
 
-
-def ingest_rates() -> Rates:
+def ingest_rates() -> List[CurrencyRate]:
     """
     Downloads the latest exchange rates from openexchangerates.org and writes them to rates.json
     to make them available for conversion queries
@@ -15,9 +15,7 @@ def ingest_rates() -> Rates:
     response = requests.get(url, headers={"accept": "application/json"})
 
     rates = [CurrencyRate(code=k, rate=v) for k, v in response.json()["rates"].items()]
-    return Rates(
-        rates=rates, message="Today's exchange rates have finished downloading"
-    )
+    return rates
 
 
 ingest_rates()

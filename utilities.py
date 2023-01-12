@@ -6,5 +6,3 @@ CurrencyConversion = namedtuple(
 CountryCode = namedtuple("CountryCode", "country country_code")
 
 CurrencyRate = namedtuple("CurrencyRate", "code rate")
-
-Rates = namedtuple("Rates", "rates, message")

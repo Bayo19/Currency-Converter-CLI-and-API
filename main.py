@@ -45,9 +45,9 @@ def download_latest_rates():
     Downloads the latest exchange rates from openexchangerates.org
     to make them available for conversion queries
     """
-    result = ingest_rates()
-    rates_to_db(connection=_con, data=result.rates)
-    rich.print(f"[bold green] {result.message} [/bold green]")
+    data = ingest_rates()
+    rates_to_db(connection=_con, data=data)
+    rich.print(f"[bold green] Today's exchange rates have finished downloading [/bold green]")
 
 
 @app.command()
