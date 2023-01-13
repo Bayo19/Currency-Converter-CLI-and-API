@@ -19,9 +19,6 @@ def ingest_rates() -> List[CurrencyRate]:
     return rates
 
 
-ingest_rates()
-
-
 def get_country_code(country: str) -> CountryCode:
     """
     Returns a country code
