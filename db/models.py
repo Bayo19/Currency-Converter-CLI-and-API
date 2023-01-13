@@ -1,5 +1,5 @@
 from sqlalchemy import String, Float, Column
-from database import Base
+from db.database import Base
 
 # Model
 class Rate(Base):

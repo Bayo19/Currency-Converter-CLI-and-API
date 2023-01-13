@@ -1,8 +1,8 @@
 import os
 import requests
-import api_keys
-from country_codes_mapping import country_currency_codes
-from utilities import CountryCode, CurrencyRate
+import src.api_keys
+from src.country_codes_mapping import country_currency_codes
+from src.utilities import CountryCode, CurrencyRate
 from typing import List
 
 

@@ -1,6 +1,6 @@
 import pytest
-from ..utilities import CurrencyConversion
-from ..convert import FXConverter
+from ..src.utilities import CurrencyConversion
+from ..src.convert import FXConverter
 
 
 @pytest.mark.parametrize(
