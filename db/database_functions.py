@@ -11,12 +11,12 @@ def create_table() -> None:
 
 
 def add_rates_to_table(data: List[CurrencyRate], session=Session()) -> None:
-    session.add_all([Rate(currencyCode=r.code, rate=r.rate) for r in data])
+    session.add_all([Rate(currency_code=r.code, rate=r.rate) for r in data])
     session.commit()
 
 
 def get_rates_from_table(from_rate: str, to_rate: str, session=Session()) -> Dict[str, float]:
     result = session.query(Rate).filter(
-        or_(Rate.currencyCode == from_rate, Rate.currencyCode == to_rate)
+        or_(Rate.currency_code == from_rate, Rate.currency_code == to_rate)
     )
-    return {r.currencyCode: r.rate for r in result.all()}
+    return {r.currency_code: r.rate for r in result.all()}

@@ -5,5 +5,5 @@ from db.database import Base
 class Rate(Base):
 
     __tablename__ = "exchangerates"
-    currencyCode = Column(String, primary_key=True)
+    currency_code = Column(String, primary_key=True)
     rate = Column(Float)
