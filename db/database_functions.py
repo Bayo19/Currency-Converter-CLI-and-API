@@ -22,6 +22,7 @@ def get_rates_from_table(
         or_(Rate.currency_code == from_rate, Rate.currency_code == to_rate)
     )
 
+    # if one or both of the given rates (currency code) are not valid (found in the db) raise ValueError
     if len(result.all()) < 2:
         raise ValueError
 

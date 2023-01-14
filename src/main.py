@@ -1,12 +1,16 @@
+import sys
 import typer
 import rich
 from rich.table import Table
 from rich.console import Console
+from fuzzywuzzy import fuzz, process
 from convert import FXConverter
 from command_functions import ingest_rates, get_country_code
 from db.database_functions import add_rates_to_table
 
+
 app = typer.Typer()
+
 
 
 @app.command()
@@ -69,4 +73,13 @@ def country_code(
 
 
 if __name__ == "__main__":
-    app()
+    command = sys.argv[1]
+    valid_commands = ["convert-currency", "download-latest-rates", "country-code"]
+
+    if command in valid_commands:
+        app()
+    else:
+        suggestions = process.extract(command, valid_commands, limit=1)
+        if suggestions[0][1] > 60:
+            print(f"Command: {command} not found. Did you mean: {suggestions[0][0]}")
+    
