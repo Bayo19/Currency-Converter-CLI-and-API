@@ -15,8 +15,14 @@ def add_rates_to_table(data: List[CurrencyRate], session=Session()) -> None:
     session.commit()
 
 
-def get_rates_from_table(from_rate: str, to_rate: str, session=Session()) -> Dict[str, float]:
+def get_rates_from_table(
+    from_rate: str, to_rate: str, session=Session()
+) -> Dict[str, float]:
     result = session.query(Rate).filter(
         or_(Rate.currency_code == from_rate, Rate.currency_code == to_rate)
     )
+
+    if len(result.all()) < 2:
+        raise ValueError
+
     return {r.currency_code: r.rate for r in result.all()}

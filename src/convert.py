@@ -17,7 +17,10 @@ class FXConverter:
         """
         Converts currency
         """
-        rates = get_rates_from_table(from_rate=convert, to_rate=to)
+        try:
+            rates = get_rates_from_table(from_rate=convert, to_rate=to)
+        except ValueError:
+            return None
 
         return CurrencyConversion(
             convert_from=convert,
