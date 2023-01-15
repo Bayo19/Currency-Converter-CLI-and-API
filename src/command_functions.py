@@ -1,9 +1,9 @@
 import os
-import requests
-import api_keys
-from country_codes_mapping import country_currency_codes
-from utilities import CountryCode, CurrencyRate
 from typing import List
+import requests
+import src.api_keys
+from src.country_codes_mapping import country_currency_codes
+from src.utilities import CountryCode, CurrencyRate
 
 
 def ingest_rates() -> List[CurrencyRate]:
@@ -17,9 +17,6 @@ def ingest_rates() -> List[CurrencyRate]:
 
     rates = [CurrencyRate(code=k, rate=v) for k, v in response.json()["rates"].items()]
     return rates
-
-
-ingest_rates()
 
 
 def get_country_code(country: str) -> CountryCode:

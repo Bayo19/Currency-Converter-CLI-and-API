@@ -1,13 +1,24 @@
+import sys
 import typer
 import rich
 from rich.table import Table
 from rich.console import Console
+from fuzzywuzzy import process
 from convert import FXConverter
 from command_functions import ingest_rates, get_country_code
-from ratesdb import rates_to_db
+from db.database_functions import add_rates_to_table
+
 
 app = typer.Typer()
 
+def run_application(application, command):
+    valid_commands = ["convert-currency", "download-latest-rates", "country-code"]
+    suggestions = process.extract(command, valid_commands, limit=1)
+
+    if command not in valid_commands and suggestions[0][1] > 60:
+        rich.print(f"No such command: [white]'{command}'[/white]. Did you mean: [yellow]{suggestions[0][0]}[/yellow]")
+    else:
+        application()
 
 @app.command()
 def convert_currency(
@@ -46,7 +57,7 @@ def download_latest_rates():
     to make them available for conversion queries
     """
     data = ingest_rates()
-    rates_to_db(data=data)
+    add_rates_to_table(data=data)
     rich.print(
         f"[bold green] Today's exchange rates have finished downloading [/bold green]"
     )
@@ -69,4 +80,5 @@ def country_code(
 
 
 if __name__ == "__main__":
-    app()
+    run_application(application=app, command=sys.argv[1])
+
