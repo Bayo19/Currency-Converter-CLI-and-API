@@ -3,7 +3,7 @@ import typer
 import rich
 from rich.table import Table
 from rich.console import Console
-from fuzzywuzzy import fuzz, process
+from fuzzywuzzy import process
 from convert import FXConverter
 from command_functions import ingest_rates, get_country_code
 from db.database_functions import add_rates_to_table
@@ -11,7 +11,14 @@ from db.database_functions import add_rates_to_table
 
 app = typer.Typer()
 
+def run_application(application, command):
+    valid_commands = ["convert-currency", "download-latest-rates", "country-code"]
+    suggestions = process.extract(command, valid_commands, limit=1)
 
+    if command not in valid_commands and suggestions[0][1] > 60:
+        rich.print(f"No such command: [white]'{command}'[/white]. Did you mean: [yellow]{suggestions[0][0]}[/yellow]")
+    else:
+        application()
 
 @app.command()
 def convert_currency(
@@ -73,13 +80,5 @@ def country_code(
 
 
 if __name__ == "__main__":
-    command = sys.argv[1]
-    valid_commands = ["convert-currency", "download-latest-rates", "country-code"]
+    run_application(application=app, command=sys.argv[1])
 
-    if command in valid_commands:
-        app()
-    else:
-        suggestions = process.extract(command, valid_commands, limit=1)
-        if suggestions[0][1] > 60:
-            print(f"Command: {command} not found. Did you mean: {suggestions[0][0]}")
-    
