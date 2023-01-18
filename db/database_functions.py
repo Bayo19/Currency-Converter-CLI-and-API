@@ -4,7 +4,6 @@ from db.models import Rate
 from db.database import Base, engine, Session
 from src.utilities import CurrencyRate
 
-
 def create_table() -> None:
     table_obj = [Rate.__table__]
     Base.metadata.create_all(engine, tables=table_obj)
@@ -27,3 +26,5 @@ def get_rates_from_table(
         raise ValueError
 
     return {r.currency_code: r.rate for r in result.all()}
+
+create_table()

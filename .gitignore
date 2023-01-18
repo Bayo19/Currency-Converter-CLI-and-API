@@ -3,3 +3,4 @@ __pycache__/
 rates.json
 cli_venv/
 rates.db
+connection_details.py
