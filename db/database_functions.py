@@ -2,7 +2,7 @@ from typing import List, Dict
 from sqlalchemy import or_
 from db.models import Rate
 from db.database import Base, engine, Session
-from src.utilities import CurrencyRate
+from common.utilities import CurrencyRate
 
 def create_table() -> None:
     table_obj = [Rate.__table__]

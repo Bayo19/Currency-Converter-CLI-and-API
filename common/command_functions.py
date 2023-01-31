@@ -1,9 +1,9 @@
 import os
 from typing import List
 import requests
-import src.api_keys
-from src.country_codes_mapping import country_currency_codes
-from src.utilities import CountryCode, CurrencyRate
+import common.api_keys
+from common.country_codes_mapping import country_currency_codes
+from common.utilities import CountryCode, CurrencyRate
 
 
 def ingest_rates() -> List[CurrencyRate]:

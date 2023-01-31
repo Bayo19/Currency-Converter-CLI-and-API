@@ -1,6 +1,6 @@
 import pytest
-from src.utilities import CurrencyConversion
-from src.convert import FXConverter
+from common.utilities import CurrencyConversion
+from common.convert import FXConverter
 from unittest.mock import patch
 
 
@@ -63,7 +63,7 @@ def test_convert_currency(amount, convert, to, expected):
         return {k:v for k,v in rates_dict if k == from_rate or k == to_rate}
 
     patch_mock_get_rates = patch(
-        "src.convert.get_rates_from_table", new=mock_get_rates_func
+        "common.convert.get_rates_from_table", new=mock_get_rates_func
     )
     converter = FXConverter()
     result = converter.convert_currency_(amount=amount, convert=convert, to=to)

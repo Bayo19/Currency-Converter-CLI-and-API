@@ -4,8 +4,8 @@ import rich
 from rich.table import Table
 from rich.console import Console
 from fuzzywuzzy import process
-from convert import FXConverter
-from command_functions import ingest_rates, get_country_code
+from common.convert import FXConverter
+from common.command_functions import ingest_rates, get_country_code
 from db.database_functions import add_rates_to_table
 
 app = typer.Typer()
