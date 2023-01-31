@@ -35,5 +35,3 @@ def get_country_code(country: str) -> CountryCode:
         return None
      # the key for the code doesn't always match the param: country
     return CountryCode(country=country.upper(), country_code=code)
-
-print(get_country_code("brazil"))
