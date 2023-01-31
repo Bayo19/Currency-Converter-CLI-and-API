@@ -3,7 +3,7 @@ from src.utilities import CurrencyConversion
 from src.convert import FXConverter
 from unittest.mock import patch
 
-rates_dict = {"GBP": 0.806753, "JPY": 128.127, "EUR": 0.920924}
+
 @pytest.mark.parametrize(
     "amount, convert, to, expected",
     [
