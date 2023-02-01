@@ -14,6 +14,14 @@ DATABASE_URI = f"postgresql://{USERNAME}:{PASSWORD}@{IP_ADDRESS}:{PORT}/{DB_NAME
 meta = MetaData()
 engine = create_engine(DATABASE_URI, echo=False)
 Base = declarative_base()
-# creating session
-Session = sessionmaker(bind=engine)
+
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+
+def get_db():
+    db = SessionLocal()
+    try:
+        return db
+    finally:
+        db.close()
 
