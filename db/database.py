@@ -12,7 +12,7 @@ DB_NAME = os.environ["DB_NAME"]
 
 DATABASE_URI = f"postgresql://{USERNAME}:{PASSWORD}@{IP_ADDRESS}:{PORT}/{DB_NAME}"
 meta = MetaData()
-engine = create_engine(DATABASE_URI, echo=False)
+engine = create_engine(DATABASE_URI, echo=True)
 Base = declarative_base()
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

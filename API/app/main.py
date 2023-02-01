@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Query
-
+from common import convert
 app = FastAPI()
 
 # http://127.0.0.1:8000/convert/?from_currency=USD&to_currency=GBP&amount=400
