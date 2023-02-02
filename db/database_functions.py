@@ -5,6 +5,7 @@ from db.database import Base, engine, get_db
 from common.utilities import run_once
 from common.data_types import CurrencyRate
 
+
 @run_once
 def create_table() -> None:
     table_obj = [Rate.__table__]

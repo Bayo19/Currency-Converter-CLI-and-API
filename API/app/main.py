@@ -4,6 +4,7 @@ from common import convert
 
 app = FastAPI()
 
+
 @app.get("/convert/")
 def conversion(
     amount: int,
@@ -12,10 +13,11 @@ def conversion(
 ):
     converter = convert.FXConverter()
     timestamp = datetime.now()
-    conversion_response = dict()
-    conversion_response["timestamp"] = timestamp
-    conversion_response["conversion"] = converter.convert_currency_(
-        amount=amount, convert=from_currency, to=to_currency
-    )._asdict()
+    conversion_response = {
+        "timestamp": timestamp,
+        "conversion": converter.convert_currency_(
+            amount=amount, convert=from_currency, to=to_currency
+        )._asdict(),
+    }
 
     return conversion_response
