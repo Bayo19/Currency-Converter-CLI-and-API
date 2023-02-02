@@ -2,9 +2,9 @@ from typing import List, Dict, Callable, Any
 from sqlalchemy import or_
 from db.models import Rate
 from db.database import Base, engine, get_db
-from common.utilities import CurrencyRate
+from common.utilities import CurrencyRate, run_once
 
-
+@run_once
 def create_table() -> None:
     table_obj = [Rate.__table__]
     Base.metadata.create_all(engine(), tables=table_obj)
