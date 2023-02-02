@@ -1,6 +1,6 @@
 from typing import Union
 from db.database_functions import get_rates_from_table
-from common.utilities import CurrencyConversion
+from common.data_types import CurrencyConversion
 
 
 class FXConverter:

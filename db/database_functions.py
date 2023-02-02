@@ -2,7 +2,8 @@ from typing import List, Dict, Callable, Any
 from sqlalchemy import or_
 from db.models import Rate
 from db.database import Base, engine, get_db
-from common.utilities import CurrencyRate, run_once
+from common.utilities import run_once
+from common.data_types import CurrencyRate
 
 @run_once
 def create_table() -> None:

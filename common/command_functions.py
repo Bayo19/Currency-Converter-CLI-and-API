@@ -3,7 +3,7 @@ from typing import List
 import requests
 import common.api_keys
 from common.country_codes_mapping import country_currency_codes
-from common.utilities import CountryCode, CurrencyRate
+from common.data_types import CountryCode, CurrencyRate
 
 
 def ingest_rates() -> List[CurrencyRate]:

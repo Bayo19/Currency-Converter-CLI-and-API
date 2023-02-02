@@ -1,5 +1,5 @@
 import pytest
-from common.utilities import CurrencyConversion
+from common.data_types import CurrencyConversion
 from common.convert import FXConverter
 from unittest.mock import patch
 
