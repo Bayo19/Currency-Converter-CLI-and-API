@@ -1,6 +1,6 @@
 import pytest
-from src.utilities import CurrencyConversion
-from src.convert import FXConverter
+from common.data_types import CurrencyConversion
+from common.convert import FXConverter
 from unittest.mock import patch
 
 
@@ -12,10 +12,10 @@ from unittest.mock import patch
             "USD",
             "GBP",
             CurrencyConversion(
-                convert_from="USD",
-                convert_to="GBP",
-                original_amount=500,
-                new_amount="{:.2f}".format(403.38),
+                from_currency="USD",
+                to_currency="GBP",
+                requested_amount=500,
+                converted_amount="{:.2f}".format(403.38),
             ),
         ),
         (
@@ -23,10 +23,10 @@ from unittest.mock import patch
             "JPY",
             "GBP",
             CurrencyConversion(
-                convert_from="JPY",
-                convert_to="GBP",
-                original_amount=69_500,
-                new_amount="{:.2f}".format(437.61),
+                from_currency="JPY",
+                to_currency="GBP",
+                requested_amount=69_500,
+                converted_amount="{:.2f}".format(437.61),
             ),
         ),
         (
@@ -34,10 +34,10 @@ from unittest.mock import patch
             "GBP",
             "USD",
             CurrencyConversion(
-                convert_from="GBP",
-                convert_to="USD",
-                original_amount=1000,
-                new_amount="{:.2f}".format(1239.54),
+                from_currency="GBP",
+                to_currency="USD",
+                requested_amount=1000,
+                converted_amount="{:.2f}".format(1239.54),
             ),
         ),
         (
@@ -45,10 +45,10 @@ from unittest.mock import patch
             "GBP",
             "JPY",
             CurrencyConversion(
-                convert_from="GBP",
-                convert_to="JPY",
-                original_amount=50,
-                new_amount="{:.2f}".format(7940.91),
+                from_currency="GBP",
+                to_currency="JPY",
+                requested_amount=50,
+                converted_amount="{:.2f}".format(7940.91),
             ),
         ),
         (135, "USD", "ZZZ", None),
@@ -60,10 +60,10 @@ def test_convert_currency(amount, convert, to, expected):
         rates_dict = {"GBP": 0.806753, "JPY": 128.127, "EUR": 0.920924}
         if from_rate not in rates_dict or to_rate not in rates_dict:
             raise ValueError
-        return {k:v for k,v in rates_dict if k == from_rate or k == to_rate}
+        return {k: v for k, v in rates_dict if k == from_rate or k == to_rate}
 
     patch_mock_get_rates = patch(
-        "src.convert.get_rates_from_table", new=mock_get_rates_func
+        "common.convert.get_rates_from_table", new=mock_get_rates_func
     )
     converter = FXConverter()
     result = converter.convert_currency_(amount=amount, convert=convert, to=to)

@@ -1,6 +1,6 @@
 from typing import Union
 from db.database_functions import get_rates_from_table
-from src.utilities import CurrencyConversion
+from common.data_types import CurrencyConversion
 
 
 class FXConverter:
@@ -23,8 +23,10 @@ class FXConverter:
             return None
 
         return CurrencyConversion(
-            convert_from=convert,
-            convert_to=to,
-            original_amount=amount,
-            new_amount="{:.2f}".format((amount * rates.get(to)) / rates.get(convert)),
+            from_currency=convert,
+            to_currency=to,
+            requested_amount=amount,
+            converted_amount="{:.2f}".format(
+                (amount * rates.get(to)) / rates.get(convert)
+            ),
         )
