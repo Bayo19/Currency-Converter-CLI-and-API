@@ -28,10 +28,8 @@ def get_country_code(country: str) -> CountryCode:
         k: v for k, v in country_currency_codes.items() if country.upper() in k
     }
     try:
-        code = list(v for v in filtered_codes.values())[
-        0
-    ]
-    except IndexError: 
+        code = list(v for v in filtered_codes.values())[0]
+    except IndexError:
         return None
-     # the key for the code doesn't always match the param: country
+    # the key for the code doesn't always match the param: country
     return CountryCode(country=country.upper(), country_code=code)

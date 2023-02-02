@@ -60,7 +60,7 @@ def test_convert_currency(amount, convert, to, expected):
         rates_dict = {"GBP": 0.806753, "JPY": 128.127, "EUR": 0.920924}
         if from_rate not in rates_dict or to_rate not in rates_dict:
             raise ValueError
-        return {k:v for k,v in rates_dict if k == from_rate or k == to_rate}
+        return {k: v for k, v in rates_dict if k == from_rate or k == to_rate}
 
     patch_mock_get_rates = patch(
         "common.convert.get_rates_from_table", new=mock_get_rates_func

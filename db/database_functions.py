@@ -7,7 +7,7 @@ from common.utilities import CurrencyRate
 
 def create_table() -> None:
     table_obj = [Rate.__table__]
-    Base.metadata.create_all(engine, tables=table_obj)
+    Base.metadata.create_all(engine(), tables=table_obj)
 
 
 def add_rates_to_table(
