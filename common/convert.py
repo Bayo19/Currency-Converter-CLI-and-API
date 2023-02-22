@@ -9,7 +9,7 @@ class FXConverter:
 
     def convert_currency_(
         self,
-        amount: int,
+        amount: float,
         convert: str,
         to: str,
     ) -> Union[CurrencyConversion, None]:
