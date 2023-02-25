@@ -15,7 +15,7 @@ from unittest.mock import patch
                 from_currency="USD",
                 to_currency="GBP",
                 requested_amount=500,
-                converted_amount="{:.2f}".format(403.38),
+                converted_amount=403.3765,
             ),
         ),
         (
@@ -26,7 +26,7 @@ from unittest.mock import patch
                 from_currency="JPY",
                 to_currency="GBP",
                 requested_amount=69_500,
-                converted_amount="{:.2f}".format(437.61),
+                converted_amount=437.6074792978841,
             ),
         ),
         (
@@ -37,7 +37,7 @@ from unittest.mock import patch
                 from_currency="GBP",
                 to_currency="USD",
                 requested_amount=1000,
-                converted_amount="{:.2f}".format(1239.54),
+                converted_amount=1239.5367603219324,
             ),
         ),
         (
@@ -48,7 +48,7 @@ from unittest.mock import patch
                 from_currency="GBP",
                 to_currency="JPY",
                 requested_amount=50,
-                converted_amount="{:.2f}".format(7940.91),
+                converted_amount=7940.906324488412,
             ),
         ),
         (135, "USD", "ZZZ", None),
