@@ -44,11 +44,13 @@ def convert_currency(
         )
         raise typer.Exit()
 
-    result_table.add_column(result.convert_from, style="rgb(175,0,255)")
-    result_table.add_column(result.convert_to, style="green")
+    result_table.add_column(result.from_currency, style="rgb(175,0,255)")
+    result_table.add_column(result.to_currency, style="green")
+    requested = "{:.2f}".format(result.requested_amount)
+    converted = "{:.2f}".format(result.converted_amount)
     result_table.add_row(
-        f"{result.original_amount} {result.convert_from}",
-        f"{result.new_amount} {result.convert_to}",
+        f"{requested} {result.from_currency}",
+        f"{converted} {result.to_currency}",
     )
     console.print(result_table)
 
