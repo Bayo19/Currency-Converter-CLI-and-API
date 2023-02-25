@@ -16,7 +16,7 @@ Base = declarative_base()
 
 
 def engine():
-    engine = create_engine(DATABASE_URI, echo=True)
+    engine = create_engine(DATABASE_URI, echo=False)
     return engine
 
 
