@@ -26,7 +26,5 @@ class FXConverter:
             from_currency=convert,
             to_currency=to,
             requested_amount=amount,
-            converted_amount="{:.2f}".format(
-                (amount * rates.get(to)) / rates.get(convert)
-            ),
+            converted_amount=(amount * rates.get(to)) / rates.get(convert),
         )
