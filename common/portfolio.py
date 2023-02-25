@@ -77,7 +77,8 @@ class Portfolio:
 
         source_portfolio = get_portfolio_from_table(username=self.username)
         target_portfolio = get_portfolio_from_table(username=other_portfolio_name)
-        target_money = float(
+
+        target_amount = float(
             self.converter.convert_currency_(
                 amount=source_amount,
                 convert=source_currency_code,
@@ -90,7 +91,7 @@ class Portfolio:
             if [
                 t
                 for t in target_portfolio
-                if t.currency_code == target_currency_code and t.amount >= target_money
+                if t.currency_code == target_currency_code and t.amount >= target_amount
             ]
             else False
         )
@@ -120,12 +121,12 @@ class Portfolio:
             subtract_amount_from_currency(
                 username=other_portfolio_name,
                 currency=target_currency_code,
-                amount=target_money,
+                amount=target_amount,
             )
             add_amount_to_currency(
                 username=self.username,
                 currency=target_currency_code,
-                amount=target_money,
+                amount=target_amount,
             )
         else:
             raise ValueError
