@@ -86,24 +86,20 @@ class Portfolio:
             ).converted_amount
         )
 
-        other_user_has_target_currency = (
-            True
-            if [
+        other_user_has_target_currency = bool(
+            [
                 t
                 for t in target_portfolio
                 if t.currency_code == target_currency_code and t.amount >= target_amount
             ]
-            else False
         )
 
-        source_user_has_source_currency = (
-            True
-            if [
+        source_user_has_source_currency = bool(
+            [
                 s
                 for s in source_portfolio
                 if s.currency_code == source_currency_code and s.amount >= source_amount
             ]
-            else False
         )
 
         if source_user_has_source_currency and other_user_has_target_currency:
@@ -132,12 +128,3 @@ class Portfolio:
             raise ValueError
 
 
-p = Portfolio("Jordan")
-print(
-    p.trade_currencies(
-        source_currency_code="GBP",
-        target_currency_code="EUR",
-        source_amount=650,
-        other_portfolio_name="Mary",
-    )
-)
