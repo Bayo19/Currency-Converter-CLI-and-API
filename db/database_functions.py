@@ -38,10 +38,24 @@ def get_rates_from_table(
     return {r.currency_code: r.rate for r in result.all()}
 
 
-def get_portfolio_from_table(username: str, db: Callable[..., Session] = get_db) -> list[PortfolioItem]:
+def get_portfolio_from_table(
+    username: str, db: Callable[..., Session] = get_db
+) -> list[PortfolioItem]:
     db: Session = db()
-    portfolio = db.query(Portfolio.username, Portfolio.id, PortfolioBalance.currency, PortfolioBalance.amount, PortfolioBalance.timestamp).filter(Portfolio.id == PortfolioBalance.portfolio_id).filter_by(username=username).all()
+    portfolio = (
+        db.query(
+            Portfolio.username,
+            Portfolio.id,
+            PortfolioBalance.currency,
+            PortfolioBalance.amount,
+            PortfolioBalance.timestamp,
+        )
+        .filter(Portfolio.id == PortfolioBalance.portfolio_id)
+        .filter_by(username=username)
+        .all()
+    )
     return [PortfolioItem(*p) for p in portfolio]
+
 
 def user_exists(username: str, db: Callable[..., Session] = get_db) -> bool:
     db: Session = db()
@@ -123,7 +137,6 @@ def add_balances_to_portfolio_balance_table(
 
     for currency, amount in balance_map.items():
         add_amount_to_currency(username=username, currency=currency, amount=amount)
-
 
 
 create_tables()
