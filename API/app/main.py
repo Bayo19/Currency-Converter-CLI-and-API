@@ -1,6 +1,7 @@
 from datetime import datetime
 from fastapi import FastAPI, Query
-from common import convert
+from common import convert, portfolio
+from db.schemas import UserPortfolio, ConversionData
 
 app = FastAPI()
 
@@ -10,7 +11,7 @@ def conversion(
     amount: int,
     to_currency: str = Query(default=..., max_length=3),
     from_currency: str = Query(default="USD", max_length=3),
-):
+) -> ConversionData:
     converter = convert.FXConverter()
     timestamp = datetime.now()
     conversion_response = {
@@ -21,3 +22,40 @@ def conversion(
     }
 
     return conversion_response
+
+
+@app.get("/portfolio/{username}")
+def get_portfolio(username: str) -> UserPortfolio:
+    portf = portfolio.Portfolio(username=username)
+    return portf.get_portfolio_as_dict()
+
+
+@app.put("/trade/{buyer_username}")
+def make_trade(
+    buyer_username: str,
+    source_amount: int,
+    seller_username: str,
+    source_currency: str = Query(default=..., max_length=3),
+    target_currency: str = Query(default=..., max_length=3),
+):
+    portf = portfolio.Portfolio(username=buyer_username)
+    portf.trade_currencies(
+        source_currency_code=source_currency,
+        target_currency_code=target_currency,
+        source_amount=source_amount,
+        other_portfolio_name=seller_username,
+    )
+
+    timestamp = datetime.now()
+
+    return {
+        "success": "true",
+        "message": "Trade successful",
+        "details": {
+            "buyer": buyer_username,
+            "seller": seller_username,
+            "currency": target_currency,
+            "amount": source_amount,
+            "timestamp": timestamp,
+        },
+    }
