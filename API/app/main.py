@@ -17,7 +17,7 @@ def conversion(
         "timestamp": timestamp,
         "conversion": converter.convert_currency_(
             amount=amount, convert=from_currency, to=to_currency
-        )._asdict(),
+        ),
     }
 
     return conversion_response
