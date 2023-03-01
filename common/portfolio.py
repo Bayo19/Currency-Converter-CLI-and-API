@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Optional
+from typing import Optional, Any
 from functools import reduce
 from db.database_functions import (
     add_balances_to_portfolio_balance_table,
@@ -10,7 +10,7 @@ from db.database_functions import (
     add_amount_to_currency,
 )
 
-from convert import FXConverter
+import common.convert as convert
 
 
 class Portfolio:
@@ -19,7 +19,7 @@ class Portfolio:
     ) -> None:
         self.username = username
         self.balance = balance
-        self.converter = FXConverter()
+        self.converter = convert.FXConverter()
 
     def create_portfolio(
         self,
@@ -46,6 +46,21 @@ class Portfolio:
         add_balances_to_portfolio_balance_table(
             username=self.username, balance_map=balance_map
         )
+
+    def get_portfolio_as_dict(
+        self,
+    ) -> dict[str, Any]:
+        portfolio_items = get_portfolio_from_table(username=self.username)
+        portfolio_as_dict = {
+            "user_id": portfolio_items[0].user_id,
+            "currencies": {},
+            "timestamp": portfolio_items[0].timestamp
+        }
+
+        for p in portfolio_items:
+            portfolio_as_dict["currencies"][p.currency_code] = p.amount
+
+        return portfolio_as_dict
 
     def get_current_total_portfolio_value(self, base_currency: str = "USD") -> float:
         """
@@ -126,5 +141,3 @@ class Portfolio:
             )
         else:
             raise ValueError
-
-
