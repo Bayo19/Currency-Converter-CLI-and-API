@@ -26,3 +26,7 @@ class UserPortfolio(BaseModel):
 
     class Config:
         orm_mode = True
+
+class CreatePortfolio(BaseModel):
+    username: str
+    balance_map: dict[str, float]
