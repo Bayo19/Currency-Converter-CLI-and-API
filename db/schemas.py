@@ -19,6 +19,7 @@ class ConversionData(BaseModel):
     class Config:
         orm_mode = True
 
+
 class UserPortfolio(BaseModel):
     user_id: int
     currencies: dict[str, float]
@@ -26,6 +27,7 @@ class UserPortfolio(BaseModel):
 
     class Config:
         orm_mode = True
+
 
 class CreatePortfolio(BaseModel):
     username: str

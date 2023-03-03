@@ -60,7 +60,6 @@ def get_portfolio_from_table(
 def user_exists(username: str, db: Callable[..., Session] = get_db) -> bool:
     db: Session = db()
     return bool(db.query(Portfolio.username).filter_by(username=username).one_or_none())
-    
 
 
 def create_new_portfolio_user(
@@ -103,6 +102,7 @@ def add_amount_to_currency(
         )
         db.add(balance)
     db.commit()
+
 
 def subtract_amount_from_currency(
     username: str, currency: str, amount: float, db: Callable[..., Session] = get_db

@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from datetime import datetime
 
+
 @dataclass
 class CurrencyConversion:
     from_currency: str
@@ -19,6 +20,7 @@ class CountryCode:
 class CurrencyRate:
     code: str
     rate: float
+
 
 @dataclass
 class PortfolioItem:
