@@ -59,22 +59,21 @@ def get_portfolio_from_table(
 
 def user_exists(username: str, db: Callable[..., Session] = get_db) -> bool:
     db: Session = db()
-    if db.query(Portfolio.username).filter_by(username=username).one_or_none():
-        return True
-    return False
+    return bool(db.query(Portfolio.username).filter_by(username=username).one_or_none())
+    
 
 
 def create_new_portfolio_user(
     username: str, db: Callable[..., Session] = get_db
-) -> None:
+) -> bool:
     db: Session = db()
 
     if not user_exists(username=username):
         portfolio_post = Portfolio(username=username)
         db.add(portfolio_post)
         db.commit()
-    else:
-        raise ValueError
+        return True
+    return False
 
 
 def add_amount_to_currency(
@@ -84,7 +83,7 @@ def add_amount_to_currency(
     Add amount to currency for user if currency exist else create currency in portfolio for user with value of amount
     """
     db: Session = db()
-    portfolio_id = db.query(Portfolio.id).filter_by(username=username)
+    portfolio_id = db.query(Portfolio.id).filter_by(username=username).first()[0]
     balance: PortfolioBalance = (
         db.query(PortfolioBalance)
         .filter_by(portfolio_id=portfolio_id, currency=currency)
@@ -93,7 +92,7 @@ def add_amount_to_currency(
     timestamp = datetime.now()
 
     if balance:
-        balance.amount += amount
+        balance.amount = PortfolioBalance.amount + amount
         db.add(balance)
     else:
         balance = PortfolioBalance(
@@ -102,8 +101,8 @@ def add_amount_to_currency(
             timestamp=timestamp,
             portfolio_id=portfolio_id,
         )
+        db.add(balance)
     db.commit()
-
 
 def subtract_amount_from_currency(
     username: str, currency: str, amount: float, db: Callable[..., Session] = get_db
@@ -120,7 +119,7 @@ def subtract_amount_from_currency(
         .one_or_none()
     )
     if balance:
-        balance.amount -= amount
+        balance.amount = balance.amount - amount
         db.add(balance)
         db.commit()
     else:

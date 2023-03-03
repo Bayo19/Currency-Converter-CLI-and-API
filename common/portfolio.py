@@ -15,27 +15,24 @@ import common.convert as convert
 
 class Portfolio:
     def __init__(
-        self, username: str, balance: Optional[dict[str, float]] = None
+        self, username: str
     ) -> None:
         self.username = username
-        self.balance = balance
         self.converter = convert.FXConverter()
 
     def create_portfolio(
-        self,
-    ) -> None:
+        self, balance_map: dict[str, float]
+    ) -> bool:
         """
         Create new portfolio user in portfolio table and add currencies to portfolio_balance table
         """
-        try:
-            create_new_portfolio_user(username=self.username)
-        except ValueError:
-            raise ValueError
-
-        add_balances_to_portfolio_balance_table(
-            username=self.username, balance_map=self.balance
-        )
-        return
+        new_user = create_new_portfolio_user(username=self.username)
+        if new_user:
+            add_balances_to_portfolio_balance_table(
+                username=self.username, balance_map=balance_map
+            )
+            return True
+        return False
 
     def update_portfolio_balance(self, balance_map: dict[str, float]) -> None:
         """
@@ -51,16 +48,18 @@ class Portfolio:
         self,
     ) -> dict[str, Any]:
         portfolio_items = get_portfolio_from_table(username=self.username)
-        portfolio_as_dict = {
-            "user_id": portfolio_items[0].user_id,
-            "currencies": {},
-            "timestamp": portfolio_items[0].timestamp
-        }
+        if portfolio_items:
+            portfolio_as_dict = {
+                "user_id": portfolio_items[0].user_id,
+                "currencies": {},
+                "timestamp": portfolio_items[0].timestamp
+            }
 
-        for p in portfolio_items:
-            portfolio_as_dict["currencies"][p.currency_code] = p.amount
+            for p in portfolio_items:
+                portfolio_as_dict["currencies"][p.currency_code] = p.amount
 
-        return portfolio_as_dict
+            return portfolio_as_dict
+        raise ValueError
 
     def get_current_total_portfolio_value(self, base_currency: str = "USD") -> float:
         """
