@@ -119,7 +119,7 @@ def subtract_amount_from_currency(
         .one_or_none()
     )
     if balance:
-        balance.amount = balance.amount - amount
+        balance.amount = PortfolioBalance.amount - amount
         db.add(balance)
         db.commit()
     else:
