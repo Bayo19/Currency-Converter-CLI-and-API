@@ -14,15 +14,11 @@ import common.convert as convert
 
 
 class Portfolio:
-    def __init__(
-        self, username: str
-    ) -> None:
+    def __init__(self, username: str) -> None:
         self.username = username
         self.converter = convert.FXConverter()
 
-    def create_portfolio(
-        self, balance_map: dict[str, float]
-    ) -> bool:
+    def create_portfolio(self, balance_map: dict[str, float]) -> bool:
         """
         Create new portfolio user in portfolio table and add currencies to portfolio_balance table
         """
@@ -52,14 +48,14 @@ class Portfolio:
             portfolio_as_dict = {
                 "user_id": portfolio_items[0].user_id,
                 "currencies": {},
-                "timestamp": portfolio_items[0].timestamp
+                "timestamp": portfolio_items[0].timestamp,
             }
 
             for p in portfolio_items:
                 portfolio_as_dict["currencies"][p.currency_code] = p.amount
 
             return portfolio_as_dict
-        raise ValueError
+        return None
 
     def get_current_total_portfolio_value(self, base_currency: str = "USD") -> float:
         """
@@ -87,10 +83,13 @@ class Portfolio:
         target_currency_code: str,
         source_amount: str,
         other_portfolio_name: str,
-    ) -> None:
+    ) -> bool:
 
         source_portfolio = get_portfolio_from_table(username=self.username)
         target_portfolio = get_portfolio_from_table(username=other_portfolio_name)
+
+        if not source_portfolio or not target_portfolio:
+            raise ValueError
 
         target_amount = float(
             self.converter.convert_currency_(
@@ -138,5 +137,6 @@ class Portfolio:
                 currency=target_currency_code,
                 amount=target_amount,
             )
+            return True
         else:
-            raise ValueError
+            False
