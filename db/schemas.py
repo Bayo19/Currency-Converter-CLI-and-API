@@ -31,4 +31,15 @@ class UserPortfolio(BaseModel):
 
 class CreatePortfolio(BaseModel):
     username: str
-    balance_map: dict[str, float]
+    currency_balances: dict[str, float]
+
+    class Config:
+        orm_mode = True
+
+
+class Trade(BaseModel):
+    buyer_name: str
+    seller_name: str
+    target_currency: str
+    amount: float
+    timestamp: datetime
