@@ -55,7 +55,9 @@ from unittest.mock import patch
         (200_069_420, "ZZZ", "USD", None),
     ],
 )
-def test_convert_currency(amount, convert, to, expected):
+def test_convert_currency(
+    amount: float, source_currency_code: str, target_currency_code: str, expected
+):
     def mock_get_rates_func(from_rate, to_rate):
         rates_dict = {"GBP": 0.806753, "JPY": 128.127, "EUR": 0.920924}
         if from_rate not in rates_dict or to_rate not in rates_dict:
@@ -66,5 +68,9 @@ def test_convert_currency(amount, convert, to, expected):
         "common.convert.get_rates_from_table", new=mock_get_rates_func
     )
     converter = FXConverter()
-    result = converter.convert_currency_(amount=amount, convert=convert, to=to)
+    result = converter.convert_currency_(
+        amount=amount,
+        source_currency=source_currency_code,
+        target_currency=target_currency_code,
+    )
     assert result == expected
