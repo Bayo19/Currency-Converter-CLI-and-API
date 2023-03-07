@@ -5,7 +5,7 @@ from rich.table import Table
 from rich.console import Console
 from fuzzywuzzy import process
 from common.convert import FXConverter
-from common.command_functions import ingest_rates, get_country_code
+from common.utility_functions import ingest_rates, get_country_code
 from db.database_functions import add_rates_to_table
 
 app = typer.Typer()
@@ -25,18 +25,20 @@ def run_application(application, command):
 
 @app.command()
 def convert_currency(
-    amount: int = typer.Argument(
+    amount: float = typer.Argument(
         ..., help="The amount of money to convert", show_default=False
     ),
-    convert: str = typer.Option(default="USD", help="Currency to convert from"),
-    to: str = typer.Option(default="GBP", help="Currency to convert to"),
+    source_currency: str = typer.Option(default="USD", help="Currency to convert from"),
+    target_currency: str = typer.Option(default="GBP", help="Currency to convert to"),
 ):
     """Converts currency"""
     console = Console()
     result_table = Table(title="\nCurrency Conversion")
 
     converter = FXConverter()
-    result = converter.convert_currency_(amount=amount, convert=convert, to=to)
+    result = converter.convert_currency_(
+        amount=amount, source_currency=source_currency, target_currency=target_currency
+    )
     if result is None:
         rich.print("[bold red] Please use a valid currency name [/bold red]")
         rich.print(
