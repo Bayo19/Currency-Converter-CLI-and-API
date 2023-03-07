@@ -16,8 +16,7 @@ Base = declarative_base()
 
 
 def engine():
-    engine = create_engine(DATABASE_URI, echo=False)
-    return engine
+    return create_engine(DATABASE_URI, echo=False)
 
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine())
