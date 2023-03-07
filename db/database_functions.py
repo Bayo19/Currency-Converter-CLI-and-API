@@ -8,6 +8,7 @@ from common.data_types import CurrencyRate, PortfolioItem
 
 
 def create_tables() -> None:
+    """Create database tables."""
     table_obj = [Rate.__table__, Portfolio.__table__, PortfolioBalance.__table__]
     Base.metadata.create_all(engine(), tables=table_obj)
 
@@ -15,6 +16,13 @@ def create_tables() -> None:
 def add_rates_to_table(
     data: list[CurrencyRate], db: Callable[..., Any] = get_db
 ) -> None:
+    """
+    Add currency rates to the database.
+
+    Args:
+        data: A list of `CurrencyRate` objects.
+        db: A function that returns a `Session` object.
+    """
     db: Session = db()
     db.add_all([Rate(currency_code=r.code, rate=r.rate) for r in data])
     db.commit()
@@ -24,7 +32,15 @@ def get_rates_from_table(
     from_rate: str, to_rate: str, db: Callable[..., Session] = get_db
 ) -> dict[str, float]:
     """
-    Retrieves exchanges rates from database table
+    Retrieve exchange rates from the database.
+
+    Args:
+        from_rate: The currency code to convert from.
+        to_rate: The currency code to convert to.
+        db: A function that returns a `Session` object.
+
+    Returns:
+        A dictionary containing the exchange rates.
     """
     db: Session = db()
     result = db.query(Rate).filter(
@@ -41,6 +57,17 @@ def get_rates_from_table(
 def get_portfolio_from_table(
     username: str, db: Callable[..., Session] = get_db
 ) -> list[PortfolioItem]:
+
+    """
+    Retrieve the portfolio for a user.
+
+    Args:
+        username: The username.
+        db: A function that returns a `Session` object.
+
+    Returns:
+        A list of `PortfolioItem` objects.
+    """
     db: Session = db()
     portfolio = (
         db.query(
@@ -58,6 +85,16 @@ def get_portfolio_from_table(
 
 
 def user_exists(username: str, db: Callable[..., Session] = get_db) -> bool:
+    """
+    Check if user exists.
+
+    Args:
+        username: The username.
+        db: A function that returns a `Session` object.
+
+    Returns:
+        True if user exists else False
+    """
     db: Session = db()
     return bool(db.query(Portfolio.username).filter_by(username=username).one_or_none())
 
@@ -65,6 +102,17 @@ def user_exists(username: str, db: Callable[..., Session] = get_db) -> bool:
 def create_new_portfolio_user(
     username: str, db: Callable[..., Session] = get_db
 ) -> bool:
+
+    """
+    Creates new portfolio user if name does not exist in database
+
+    Args:
+        username: The username.
+        db: A function that returns a `Session` object.
+
+    Returns:
+        True if user did not exist else False
+    """
     db: Session = db()
 
     if not user_exists(username=username):
@@ -77,9 +125,16 @@ def create_new_portfolio_user(
 
 def add_amount_to_currency(
     username: str, currency: str, amount: float, db: Callable[..., Session] = get_db
-):
+) -> None:
     """
-    Add amount to currency for user if currency exist else create currency in portfolio for user with value of amount
+    Add amount to currency for user if currency exists else
+    create currency in portfolio for user with value of amount
+
+    Args:
+        username: The username.
+        currency: The currency code of money being added.
+        amount: The amount of money being added.
+        db: A function that returns a `Session` object.
     """
     db: Session = db()
     portfolio_id = db.query(Portfolio.id).filter_by(username=username).first()[0]
@@ -106,10 +161,19 @@ def add_amount_to_currency(
 
 def subtract_amount_from_currency(
     username: str, currency: str, amount: float, db: Callable[..., Session] = get_db
-):
+) -> None:
 
     """
     Subtract amount from currency for user
+
+    Args:
+        username: The username.
+        currency: The currency code of money being added.
+        amount: The amount of money being added.
+        db: A function that returns a `Session` object.
+
+    Raises:
+        ValueError
     """
     db: Session = db()
     portfolio_id = db.query(Portfolio.id).filter_by(username=username)
@@ -123,18 +187,18 @@ def subtract_amount_from_currency(
         db.add(balance)
         db.commit()
     else:
-        raise ValueError
+        raise ValueError  # TODO another custom exception here?
 
 
 def add_balances_to_portfolio_balance_table(
-    username: str, balance_map: dict[str, float]
+    username: str, currency_balances: dict[str, float]
 ) -> None:
     """
-    Adds new data to portfolio_balance table with given currencies
-    and updates balances if they already exist for given user
+    Add amount to currency (for currency in balance map) for user if currency exists else
+    create currency in portfolio for user with value of amount
     """
 
-    for currency, amount in balance_map.items():
+    for currency, amount in currency_balances.items():
         add_amount_to_currency(username=username, currency=currency, amount=amount)
 
 
