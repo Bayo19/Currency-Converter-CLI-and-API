@@ -60,7 +60,8 @@ def get_portfolio(
         detail=f"Username: {username} - does not exist",
     )
 
-# make more idempotent by recording each trade and 
+
+# make more idempotent by recording each trade and
 # not allowing same trade to take place more than once?
 @app.post("/trade/", status_code=status.HTTP_200_OK)
 def make_trade(

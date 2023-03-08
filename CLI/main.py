@@ -66,7 +66,7 @@ def download_latest_rates():
     data = ingest_rates()
     add_rates_to_table(data=data)
     rich.print(
-        f"[bold green] Today's exchange rates have finished downloading [/bold green]"
+        "[bold green] Today's exchange rates have finished downloading [/bold green]"
     )
 
 
@@ -84,7 +84,7 @@ def country_code(
     console = Console()
     table = Table("country", "currency code")
 
-    if result != None:
+    if result is not None:
         table.add_row(result.country, result.country_code)
         console.print(table)
     else:

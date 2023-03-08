@@ -64,9 +64,7 @@ def test_convert_currency(
             raise ValueError
         return {k: v for k, v in rates_dict if k == from_rate or k == to_rate}
 
-    patch_mock_get_rates = patch(
-        "common.convert.get_rates_from_table", new=mock_get_rates_func
-    )
+    patch("common.convert.get_rates_from_table", new=mock_get_rates_func)
     converter = FXConverter()
     result = converter.convert_currency_(
         amount=amount,

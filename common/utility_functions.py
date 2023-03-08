@@ -1,7 +1,6 @@
-import os
 from typing import List
 import requests
-import common.api_keys
+from common.api_keys import api_key
 from common.country_codes_mapping import country_currency_codes
 from common.data_types import CountryCode, CurrencyRate, PortfolioItem
 from db.database_functions import subtract_amount_from_currency, add_amount_to_currency
@@ -9,10 +8,9 @@ from db.database_functions import subtract_amount_from_currency, add_amount_to_c
 
 def ingest_rates() -> List[CurrencyRate]:
     """
-    Downloads the latest exchange rates from openexchangerates.org and writes them to rates.json
-    to make them available for conversion queries
+    Downloads the latest exchange rates from openexchangerates.org
+    and writes them to rates.json to make them available for conversion queries
     """
-    api_key = os.environ["API_KEY"]
     url = f"https://openexchangerates.org/api/latest.json?app_id={api_key}"
     response = requests.get(url, headers={"accept": "application/json"})
 
