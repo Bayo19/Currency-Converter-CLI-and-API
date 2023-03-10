@@ -15,7 +15,6 @@ def temp_db():
 
 @pytest.fixture
 def database(temp_db):
-    Base = declarative_base()
     engine = create_engine("sqlite:///temp_currencyConverter.db/", echo=False)
     SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
     create_tables(eng=engine)

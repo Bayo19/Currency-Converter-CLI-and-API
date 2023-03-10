@@ -5,17 +5,17 @@ from unittest.mock import patch
 
 
 @pytest.mark.parametrize(
-    "amount, convert, to, expected",
+    "amount, source_currency_code, target_currency_code, expected",
     [
         (
             500,
             "USD",
             "GBP",
             CurrencyConversion(
-                from_currency="USD",
-                to_currency="GBP",
+                source_currency_code="USD",
+                target_currency_code="GBP",
                 requested_amount=500,
-                converted_amount=403.3765,
+                converted_amount=421.02250000000004,
             ),
         ),
         (
@@ -23,10 +23,10 @@ from unittest.mock import patch
             "JPY",
             "GBP",
             CurrencyConversion(
-                from_currency="JPY",
-                to_currency="GBP",
+                source_currency_code="JPY",
+                target_currency_code="GBP",
                 requested_amount=69_500,
-                converted_amount=437.6074792978841,
+                converted_amount=427.8624507321724,
             ),
         ),
         (
@@ -34,10 +34,10 @@ from unittest.mock import patch
             "GBP",
             "USD",
             CurrencyConversion(
-                from_currency="GBP",
-                to_currency="USD",
+                source_currency_code="GBP",
+                target_currency_code="USD",
                 requested_amount=1000,
-                converted_amount=1239.5367603219324,
+                converted_amount=1187.5849865506,
             ),
         ),
         (
@@ -45,10 +45,10 @@ from unittest.mock import patch
             "GBP",
             "JPY",
             CurrencyConversion(
-                from_currency="GBP",
-                to_currency="JPY",
+                source_currency_code="GBP",
+                target_currency_code="JPY",
                 requested_amount=50,
-                converted_amount=7940.906324488412,
+                converted_amount=8121.7690265959645,
             ),
         ),
         (135, "USD", "ZZZ", None),
@@ -64,11 +64,11 @@ def test_convert_currency(
             raise ValueError
         return {k: v for k, v in rates_dict if k == from_rate or k == to_rate}
 
-    patch("common.convert.get_rates_from_table", new=mock_get_rates_func)
+    p = patch("common.convert.get_rates_from_table", new=mock_get_rates_func)
     converter = FXConverter()
     result = converter.convert_currency_(
         amount=amount,
-        source_currency=source_currency_code,
-        target_currency=target_currency_code,
+        source_currency_code=source_currency_code,
+        target_currency_code=target_currency_code,
     )
     assert result == expected

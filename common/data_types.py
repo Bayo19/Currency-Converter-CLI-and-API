@@ -4,8 +4,8 @@ from datetime import datetime
 
 @dataclass
 class CurrencyConversion:
-    from_currency: str
-    to_currency: str
+    source_currency_code: str
+    target_currency_code: str
     requested_amount: float
     converted_amount: float
 

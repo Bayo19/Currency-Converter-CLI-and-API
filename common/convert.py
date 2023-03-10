@@ -10,8 +10,8 @@ class FXConverter:
     def convert_currency_(
         self,
         amount: float,
-        source_currency: str,
-        target_currency: str,
+        source_currency_code: str,
+        target_currency_code: str,
     ) -> Union[CurrencyConversion, None]:
 
         """
@@ -22,15 +22,15 @@ class FXConverter:
         """
         try:
             rates = get_rates_from_table(
-                from_rate=source_currency, to_rate=target_currency
+                from_rate=source_currency_code, to_rate=target_currency_code
             )
         except ValueError:
             return None
 
         return CurrencyConversion(
-            from_currency=source_currency,
-            to_currency=target_currency,
+            source_currency_code=source_currency_code,
+            target_currency_code=target_currency_code,
             requested_amount=amount,
-            converted_amount=(amount * rates.get(target_currency))
-            / rates.get(source_currency),
+            converted_amount=(amount * rates.get(target_currency_code))
+            / rates.get(source_currency_code),
         )
