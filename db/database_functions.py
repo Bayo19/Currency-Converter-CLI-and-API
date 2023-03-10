@@ -7,14 +7,14 @@ from db.database import Base, engine, get_db
 from common.data_types import CurrencyRate, PortfolioItem
 
 
-def create_tables() -> None:
+def create_tables(eng=engine()) -> None:
     """Create database tables."""
     table_obj = [Rate.__table__, Portfolio.__table__, PortfolioBalance.__table__]
-    Base.metadata.create_all(engine(), tables=table_obj)
+    Base.metadata.create_all(eng, tables=table_obj)
 
 
 def add_rates_to_table(
-    data: list[CurrencyRate], db: Callable[..., Any] = get_db
+    data: list[CurrencyRate], db: Callable[..., Any] = get_db()
 ) -> None:
     """
     Add currency rates to the database.
@@ -23,13 +23,12 @@ def add_rates_to_table(
         data: A list of `CurrencyRate` objects.
         db: A function that returns a `Session` object.
     """
-    db: Session = db()
     db.add_all([Rate(currency_code=r.code, rate=r.rate) for r in data])
     db.commit()
 
 
 def get_rates_from_table(
-    from_rate: str, to_rate: str, db: Callable[..., Session] = get_db
+    from_rate: str, to_rate: str, db: Callable[..., Session] = get_db()
 ) -> dict[str, float]:
     """
     Retrieve exchange rates from the database.
@@ -42,7 +41,6 @@ def get_rates_from_table(
     Returns:
         A dictionary containing the exchange rates.
     """
-    db: Session = db()
     result = db.query(Rate).filter(
         or_(Rate.currency_code == from_rate, Rate.currency_code == to_rate)
     )
@@ -55,7 +53,7 @@ def get_rates_from_table(
 
 
 def get_portfolio_from_table(
-    username: str, db: Callable[..., Session] = get_db
+    username: str, db: Callable[..., Session] = get_db()
 ) -> list[PortfolioItem]:
 
     """
@@ -68,7 +66,6 @@ def get_portfolio_from_table(
     Returns:
         A list of `PortfolioItem` objects.
     """
-    db: Session = db()
     portfolio = (
         db.query(
             Portfolio.username,
@@ -84,7 +81,7 @@ def get_portfolio_from_table(
     return [PortfolioItem(*p) for p in portfolio]
 
 
-def user_exists(username: str, db: Callable[..., Session] = get_db) -> bool:
+def user_exists(username: str, db: Callable[..., Session] = get_db()) -> bool:
     """
     Check if user exists.
 
@@ -95,12 +92,11 @@ def user_exists(username: str, db: Callable[..., Session] = get_db) -> bool:
     Returns:
         True if user exists else False
     """
-    db: Session = db()
     return bool(db.query(Portfolio.username).filter_by(username=username).one_or_none())
 
 
 def create_new_portfolio_user(
-    username: str, db: Callable[..., Session] = get_db
+    username: str, db: Callable[..., Session] = get_db()
 ) -> bool:
 
     """
@@ -113,8 +109,6 @@ def create_new_portfolio_user(
     Returns:
         True if user did not exist else False
     """
-    db: Session = db()
-
     if not user_exists(username=username):
         portfolio_post = Portfolio(username=username)
         db.add(portfolio_post)
@@ -124,7 +118,7 @@ def create_new_portfolio_user(
 
 
 def add_amount_to_currency(
-    username: str, currency: str, amount: float, db: Callable[..., Session] = get_db
+    username: str, currency: str, amount: float, db: Callable[..., Session] = get_db()
 ) -> None:
     """
     Add amount to currency for user if currency exists else
@@ -136,7 +130,6 @@ def add_amount_to_currency(
         amount: The amount of money being added.
         db: A function that returns a `Session` object.
     """
-    db: Session = db()
     portfolio_id = db.query(Portfolio.id).filter_by(username=username).first()[0]
     balance: PortfolioBalance = (
         db.query(PortfolioBalance)
@@ -160,7 +153,7 @@ def add_amount_to_currency(
 
 
 def subtract_amount_from_currency(
-    username: str, currency: str, amount: float, db: Callable[..., Session] = get_db
+    username: str, currency: str, amount: float, db: Callable[..., Session] = get_db()
 ) -> None:
 
     """
@@ -175,7 +168,6 @@ def subtract_amount_from_currency(
     Raises:
         ValueError
     """
-    db: Session = db()
     portfolio_id = db.query(Portfolio.id).filter_by(username=username)
     balance: PortfolioBalance = (
         db.query(PortfolioBalance)
