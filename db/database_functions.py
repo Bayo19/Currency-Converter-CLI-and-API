@@ -2,6 +2,7 @@ from typing import Callable, Any
 from datetime import datetime
 from sqlalchemy.orm import Session
 from sqlalchemy import or_
+from sqlalchemy.exc import IntegrityError
 from db.models import Rate, Portfolio, PortfolioBalance
 from db.database import Base, engine, get_db
 from common.data_types import CurrencyRate, PortfolioItem
@@ -109,12 +110,14 @@ def create_new_portfolio_user(
     Returns:
         True if user did not exist else False
     """
-    if not user_exists(username=username):
-        portfolio_post = Portfolio(username=username)
-        db.add(portfolio_post)
-        db.commit()
-        return True
-    return False
+    try:
+        if not user_exists(username=username):
+            portfolio_post = Portfolio(username=username)
+            db.add(portfolio_post)
+            db.commit()
+            return True
+    except IntegrityError:
+        return False
 
 
 def add_amount_to_currency(
