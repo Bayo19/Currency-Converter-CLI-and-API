@@ -36,12 +36,12 @@ def conversion(
 
 
 @app.post("/create_portfolio/", status_code=status.HTTP_201_CREATED)
-def initialise_portfolio(request: CreatePortfolio) -> dict[str, Any]:
+def initialise_portfolio(request: CreatePortfolio) -> CreatePortfolio:
     user_portfolio = Portfolio(
         username=request.username
     )  # not sure if I can use the dependency here
     if user_portfolio.create_portfolio(currency_balances=request.currency_balances):
-        return {"success": "true", "message": "Portfolio created", "data": request}
+        return request
     raise HTTPException(
         status_code=status.HTTP_404_NOT_FOUND,
         detail=f"User: {request.username}, already exists.",

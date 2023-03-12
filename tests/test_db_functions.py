@@ -9,7 +9,7 @@ from db.database_functions import (
     user_exists,
     create_new_portfolio_user,
     add_amount_to_currency,
-    subtract_amount_from_currency
+    subtract_amount_from_currency,
 )
 from common.data_types import CurrencyRate
 from tests.fixtures import database, temp_db
@@ -121,6 +121,7 @@ def test_add_amount_to_currency(database: Session, temp_db):
     user_portfolio = p[0]
     assert user_portfolio.amount == 550.0
 
+
 def test_subtract_amount_from_currency(database: Session, temp_db):
     portfolio_post = Portfolio(username="Jiang")
     database.add(portfolio_post)
@@ -134,8 +135,9 @@ def test_subtract_amount_from_currency(database: Session, temp_db):
     )
     database.add(balance)
     database.commit()
-    subtract_amount_from_currency(username="Jiang", currency="EUR", amount=70.0, db=database)
+    subtract_amount_from_currency(
+        username="Jiang", currency="EUR", amount=70.0, db=database
+    )
     p = get_portfolio_from_table(username="Jiang", db=database)
     user_portfolio = p[0]
     assert user_portfolio.amount == 230.0
-
