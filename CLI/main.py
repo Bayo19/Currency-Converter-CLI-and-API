@@ -6,7 +6,7 @@ from rich.console import Console
 from fuzzywuzzy import process
 from common.convert import FXConverter
 from common.utility_functions import ingest_rates, get_country_code
-from db.database_functions import add_rates_to_table
+from db.database_functions import add_rates_to_table, drop_and_create_rates_table
 
 app = typer.Typer()
 
@@ -37,7 +37,7 @@ def convert_currency(
 
     converter = FXConverter()
     result = converter.convert_currency_(
-        amount=amount, source_currency=source_currency, target_currency=target_currency
+        amount=amount, source_currency_code=source_currency, target_currency_code=target_currency
     )
     if result is None:
         rich.print("[bold red] Please use a valid currency name [/bold red]")
@@ -46,13 +46,13 @@ def convert_currency(
         )
         raise typer.Exit()
 
-    result_table.add_column(result.from_currency, style="rgb(175,0,255)")
-    result_table.add_column(result.to_currency, style="green")
+    result_table.add_column(result.source_currency_code, style="rgb(175,0,255)")
+    result_table.add_column(result.target_currency_code, style="green")
     requested = "{:.2f}".format(result.requested_amount)
     converted = "{:.2f}".format(result.converted_amount)
     result_table.add_row(
-        f"{requested} {result.from_currency}",
-        f"{converted} {result.to_currency}",
+        f"{requested} {result.source_currency_code}",
+        f"{converted} {result.target_currency_code}",
     )
     console.print(result_table)
 
@@ -64,6 +64,7 @@ def download_latest_rates():
     to make them available for conversion queries
     """
     data = ingest_rates()
+    drop_and_create_rates_table()
     add_rates_to_table(data=data)
     rich.print(
         "[bold green] Today's exchange rates have finished downloading [/bold green]"

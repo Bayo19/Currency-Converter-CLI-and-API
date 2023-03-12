@@ -8,11 +8,13 @@ from db.database import Base, engine, get_db
 from common.data_types import CurrencyRate, PortfolioItem
 
 
-def create_tables(eng=engine()) -> None:
+def create_tables(eng=engine(), tables=[Rate.__table__, Portfolio.__table__, PortfolioBalance.__table__]) -> None:
     """Create database tables."""
-    table_obj = [Rate.__table__, Portfolio.__table__, PortfolioBalance.__table__]
-    Base.metadata.create_all(eng, tables=table_obj)
+    Base.metadata.create_all(eng, tables)
 
+def drop_and_create_rates_table() -> None:
+    Rate.__table__.drop(engine())
+    create_tables(eng=engine(), tables=[Rate.__table__])
 
 def add_rates_to_table(
     data: list[CurrencyRate], db: Callable[..., Any] = get_db()
