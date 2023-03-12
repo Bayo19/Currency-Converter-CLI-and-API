@@ -67,8 +67,8 @@ class Portfolio:
                 lambda accumulator, current: accumulator
                 + self.converter.convert_currency_(
                     amount=current.amount,
-                    source_currency=current.currency_code,
-                    target_currency=base_currency,
+                    source_currency_code=current.currency_code,
+                    target_currency_code=base_currency,
                 ).converted_amount,
                 portfolio_items,
                 0,
@@ -93,8 +93,8 @@ class Portfolio:
         seller_amount = float(
             self.converter.convert_currency_(
                 amount=buyer_amount,
-                source_currency=buyer_currency_code,
-                target_currency=seller_currency_code,
+                source_currency_code=buyer_currency_code,
+                target_currency_code=seller_currency_code,
             ).converted_amount
         )
 
@@ -116,4 +116,4 @@ class Portfolio:
             )
             return True
         else:
-            False
+            return False

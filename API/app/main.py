@@ -1,5 +1,4 @@
 from datetime import datetime
-from typing import Any
 from fastapi import FastAPI, Query, status, HTTPException, Depends
 from common.convert import FXConverter
 from common.portfolio import Portfolio

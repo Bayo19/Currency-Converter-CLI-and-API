@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Union
 import requests
 from common.api_keys import api_key
 from common.country_codes_mapping import country_currency_codes
@@ -18,7 +18,7 @@ def ingest_rates() -> List[CurrencyRate]:
     return rates
 
 
-def get_country_code(country: str) -> CountryCode:
+def get_country_code(country: str) -> Union[CountryCode, None]:
     """
     Returns a country code
     """

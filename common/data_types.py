@@ -27,5 +27,5 @@ class PortfolioItem:
     username: str
     user_id: int
     currency_code: str
-    amount: str
+    amount: float
     timestamp: datetime
