@@ -80,7 +80,7 @@ class Portfolio:
         self,
         buyer_currency_code: str,
         seller_currency_code: str,
-        buyer_amount: str,
+        buyer_amount: float,
         seller_portfolio_name: str,
     ) -> bool:
 

@@ -3,10 +3,10 @@ from datetime import datetime
 
 
 class Conversion(BaseModel):
-    from_currency: str
-    to_currency: str
-    requested_amount: int
-    converted_amount: int
+    source_currency_code: str
+    target_currency_code: str
+    requested_amount: float
+    converted_amount: float
 
     class Config:
         orm_mode = True
@@ -38,8 +38,8 @@ class CreatePortfolio(BaseModel):
 
 
 class Trade(BaseModel):
-    buyer_name: str
-    seller_name: str
+    buyer: str
+    seller: str
     target_currency: str
     amount: float
     timestamp: datetime
