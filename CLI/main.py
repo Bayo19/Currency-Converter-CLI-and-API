@@ -5,8 +5,8 @@ from rich.table import Table
 from rich.console import Console
 from fuzzywuzzy import process
 from common.convert import FXConverter
-from common.command_functions import ingest_rates, get_country_code
-from db.database_functions import add_rates_to_table
+from common.utility_functions import ingest_rates, get_country_code
+from db.database_functions import add_rates_to_table, drop_and_create_rates_table
 
 app = typer.Typer()
 
@@ -25,18 +25,20 @@ def run_application(application, command):
 
 @app.command()
 def convert_currency(
-    amount: int = typer.Argument(
+    amount: float = typer.Argument(
         ..., help="The amount of money to convert", show_default=False
     ),
-    convert: str = typer.Option(default="USD", help="Currency to convert from"),
-    to: str = typer.Option(default="GBP", help="Currency to convert to"),
+    source_currency: str = typer.Option(default="USD", help="Currency to convert from"),
+    target_currency: str = typer.Option(default="GBP", help="Currency to convert to"),
 ):
     """Converts currency"""
     console = Console()
     result_table = Table(title="\nCurrency Conversion")
 
     converter = FXConverter()
-    result = converter.convert_currency_(amount=amount, convert=convert, to=to)
+    result = converter.convert_currency_(
+        amount=amount, source_currency_code=source_currency, target_currency_code=target_currency
+    )
     if result is None:
         rich.print("[bold red] Please use a valid currency name [/bold red]")
         rich.print(
@@ -44,11 +46,13 @@ def convert_currency(
         )
         raise typer.Exit()
 
-    result_table.add_column(result.convert_from, style="rgb(175,0,255)")
-    result_table.add_column(result.convert_to, style="green")
+    result_table.add_column(result.source_currency_code, style="rgb(175,0,255)")
+    result_table.add_column(result.target_currency_code, style="green")
+    requested = "{:.2f}".format(result.requested_amount)
+    converted = "{:.2f}".format(result.converted_amount)
     result_table.add_row(
-        f"{result.original_amount} {result.convert_from}",
-        f"{result.new_amount} {result.convert_to}",
+        f"{requested} {result.source_currency_code}",
+        f"{converted} {result.target_currency_code}",
     )
     console.print(result_table)
 
@@ -60,9 +64,10 @@ def download_latest_rates():
     to make them available for conversion queries
     """
     data = ingest_rates()
+    drop_and_create_rates_table()
     add_rates_to_table(data=data)
     rich.print(
-        f"[bold green] Today's exchange rates have finished downloading [/bold green]"
+        "[bold green] Today's exchange rates have finished downloading [/bold green]"
     )
 
 
@@ -80,7 +85,7 @@ def country_code(
     console = Console()
     table = Table("country", "currency code")
 
-    if result != None:
+    if result is not None:
         table.add_row(result.country, result.country_code)
         console.print(table)
     else:
