@@ -1,7 +1,7 @@
 import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
-from db.database_functions import create_tables
+from src.db.database_functions import create_tables
 
 
 @pytest.fixture

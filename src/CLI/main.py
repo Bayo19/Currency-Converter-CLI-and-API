@@ -4,9 +4,9 @@ import rich
 from rich.table import Table
 from rich.console import Console
 from fuzzywuzzy import process
-from common.convert import FXConverter
-from common.utility_functions import ingest_rates, get_country_code
-from db.database_functions import add_rates_to_table, drop_and_create_rates_table
+from src.common.convert import FXConverter
+from src.common.utility_functions import ingest_rates, get_country_code
+from src.db.database_functions import add_rates_to_table, drop_and_create_rates_table
 
 app = typer.Typer()
 
@@ -37,7 +37,9 @@ def convert_currency(
 
     converter = FXConverter()
     result = converter.convert_currency_(
-        amount=amount, source_currency_code=source_currency, target_currency_code=target_currency
+        amount=amount,
+        source_currency_code=source_currency,
+        target_currency_code=target_currency,
     )
     if result is None:
         rich.print("[bold red] Please use a valid currency name [/bold red]")

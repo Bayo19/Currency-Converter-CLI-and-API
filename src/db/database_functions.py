@@ -3,21 +3,26 @@ from datetime import datetime
 from sqlalchemy.orm import Session
 from sqlalchemy import or_
 from sqlalchemy.exc import IntegrityError
-from db.models import Rate, Portfolio, PortfolioBalance
-from db.database import Base, engine, get_db
-from common.data_types import CurrencyRate, PortfolioItem
+from src.db.models import Rate, Portfolio, PortfolioBalance
+from src.db.database import Base, engine, get_db
+from src.common.data_types import CurrencyRate, PortfolioItem
 
 
-def create_tables(eng=engine(), tables=[Rate.__table__, Portfolio.__table__, PortfolioBalance.__table__]) -> None:
+def create_tables(
+    eng=engine(),
+    tables=[Rate.__table__, Portfolio.__table__, PortfolioBalance.__table__],
+) -> None:
     """Create database tables."""
     Base.metadata.create_all(eng, tables)
+
 
 def drop_and_create_rates_table() -> None:
     Rate.__table__.drop(engine())
     create_tables(eng=engine(), tables=[Rate.__table__])
 
+
 def add_rates_to_table(
-    data: list[CurrencyRate], db: Callable[..., Any] = get_db()
+    data: list[CurrencyRate], db: Session = get_db()
 ) -> None:
     """
     Add currency rates to the database.
@@ -31,7 +36,7 @@ def add_rates_to_table(
 
 
 def get_rates_from_table(
-    from_rate: str, to_rate: str, db: Callable[..., Session] = get_db()
+    from_rate: str, to_rate: str, db: Session = get_db()
 ) -> dict[str, float]:
     """
     Retrieve exchange rates from the database.
@@ -56,7 +61,7 @@ def get_rates_from_table(
 
 
 def get_portfolio_from_table(
-    username: str, db: Callable[..., Session] = get_db()
+    username: str, db: Session = get_db()
 ) -> list[PortfolioItem]:
 
     """
@@ -84,7 +89,7 @@ def get_portfolio_from_table(
     return [PortfolioItem(*p) for p in portfolio]
 
 
-def user_exists(username: str, db: Callable[..., Session] = get_db()) -> bool:
+def user_exists(username: str, db: Session = get_db()) -> bool:
     """
     Check if user exists.
 
@@ -99,7 +104,7 @@ def user_exists(username: str, db: Callable[..., Session] = get_db()) -> bool:
 
 
 def create_new_portfolio_user(
-    username: str, db: Callable[..., Session] = get_db()
+    username: str, db: Session = get_db()
 ) -> bool:
 
     """
@@ -123,7 +128,7 @@ def create_new_portfolio_user(
 
 
 def add_amount_to_currency(
-    username: str, currency: str, amount: float, db: Callable[..., Session] = get_db()
+    username: str, currency: str, amount: float, db: Session = get_db()
 ) -> None:
     """
     Add amount to currency for user if currency exists else
@@ -158,7 +163,7 @@ def add_amount_to_currency(
 
 
 def subtract_amount_from_currency(
-    username: str, currency: str, amount: float, db: Callable[..., Session] = get_db()
+    username: str, currency: str, amount: float, db: Session = get_db()
 ) -> None:
 
     """

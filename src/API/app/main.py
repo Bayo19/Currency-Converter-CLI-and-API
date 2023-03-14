@@ -1,8 +1,8 @@
 from datetime import datetime
 from fastapi import FastAPI, Query, status, HTTPException, Depends
-from common.convert import FXConverter
-from common.portfolio import Portfolio
-from db.schemas import UserPortfolio, ConversionData, CreatePortfolio, Trade
+from src.common.convert import FXConverter
+from src.common.portfolio import Portfolio
+from src.db.schemas import UserPortfolio, ConversionData, CreatePortfolio, Trade
 
 app = FastAPI()
 
@@ -19,7 +19,9 @@ def conversion(
 ) -> ConversionData:
     converter = FXConverter()
     conversion_result = converter.convert_currency_(
-        amount=amount, source_currency_code=from_currency, target_currency_code=to_currency
+        amount=amount,
+        source_currency_code=from_currency,
+        target_currency_code=to_currency,
     )
     if conversion_result:
         timestamp = datetime.now()
@@ -79,13 +81,15 @@ def make_trade(
 
             timestamp = datetime.now()
 
-            return Trade(**{
+            return Trade(
+                **{
                     "buyer": username,
                     "seller": seller_username,
                     "target_currency": target_currency,
                     "amount": source_amount,
                     "timestamp": timestamp,
-                })
+                }
+            )
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Buyer or seller does not have enough of given currencies to trade given amount",

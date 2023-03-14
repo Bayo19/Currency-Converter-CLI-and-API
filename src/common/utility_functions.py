@@ -1,9 +1,12 @@
 from typing import List, Union
 import requests
-from common.api_keys import api_key
-from common.country_codes_mapping import country_currency_codes
-from common.data_types import CountryCode, CurrencyRate, PortfolioItem
-from db.database_functions import subtract_amount_from_currency, add_amount_to_currency
+from src.common.api_keys import api_key
+from src.common.country_codes_mapping import country_currency_codes
+from src.common.data_types import CountryCode, CurrencyRate, PortfolioItem
+from src.db.database_functions import (
+    subtract_amount_from_currency,
+    add_amount_to_currency,
+)
 
 
 def ingest_rates() -> List[CurrencyRate]:
@@ -91,3 +94,14 @@ def trade(
         currency=seller_currency_code,
         amount=seller_amount,
     )
+
+
+def run_once(func):
+    def inner(*args, **kwargs):
+        if not inner.has_run:
+            result = func(*args, **kwargs)
+            inner.has_run = True
+            return result
+
+    inner.has_run = False
+    return inner

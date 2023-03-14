@@ -1,8 +1,8 @@
 from datetime import datetime
 from sqlalchemy import or_
 from sqlalchemy.orm import Session
-from db.models import Rate, Portfolio, PortfolioBalance
-from db.database_functions import (
+from src.db.models import Rate, Portfolio, PortfolioBalance
+from src.db.database_functions import (
     add_rates_to_table,
     get_rates_from_table,
     get_portfolio_from_table,
@@ -11,7 +11,7 @@ from db.database_functions import (
     add_amount_to_currency,
     subtract_amount_from_currency,
 )
-from common.data_types import CurrencyRate
+from src.common.data_types import CurrencyRate
 from tests.fixtures import database, temp_db
 
 

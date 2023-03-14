@@ -1,5 +1,5 @@
 from sqlalchemy import String, Float, Column, Integer, ForeignKey, DateTime
-from db.database import Base
+from src.db.database import Base
 
 # Model
 class Rate(Base):
