@@ -1,15 +1,15 @@
 from __future__ import annotations
 from typing import Any
 from functools import reduce
-from src.db.database_functions import (
+from db.database_functions import (
     add_balances_to_portfolio_balance_table,
     create_new_portfolio_user,
     user_exists,
     get_portfolio_from_table,
 )
-from src.common.convert import FXConverter
-from src.common.utility_functions import valid_trade, trade
-from src.common.custom_exceptions import UserNotFoundError
+from common.convert import FXConverter
+from common.utility_functions import valid_trade, trade
+from common.custom_exceptions import UserNotFoundError
 
 
 class Portfolio:

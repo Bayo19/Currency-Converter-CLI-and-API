@@ -1,8 +1,8 @@
 from datetime import datetime
 from fastapi import FastAPI, Query, status, HTTPException, Depends
-from src.common.convert import FXConverter
-from src.common.portfolio import Portfolio
-from src.db.schemas import UserPortfolio, ConversionData, CreatePortfolio, Trade
+from common.convert import FXConverter
+from common.portfolio import Portfolio
+from db.schemas import UserPortfolio, ConversionData, CreatePortfolio, Trade
 
 app = FastAPI()
 

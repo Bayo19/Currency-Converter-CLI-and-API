@@ -3,9 +3,9 @@ from datetime import datetime
 from sqlalchemy.orm import Session
 from sqlalchemy import or_
 from sqlalchemy.exc import IntegrityError
-from src.db.models import Rate, Portfolio, PortfolioBalance
-from src.db.database import Base, engine, get_db
-from src.common.data_types import CurrencyRate, PortfolioItem
+from db.models import Rate, Portfolio, PortfolioBalance
+from db.database import Base, engine, get_db
+from common.data_types import CurrencyRate, PortfolioItem
 
 
 def create_tables(

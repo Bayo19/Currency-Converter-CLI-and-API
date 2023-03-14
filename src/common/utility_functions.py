@@ -1,9 +1,9 @@
 from typing import List, Union
 import requests
-from src.common.api_keys import api_key
-from src.common.country_codes_mapping import country_currency_codes
-from src.common.data_types import CountryCode, CurrencyRate, PortfolioItem
-from src.db.database_functions import (
+from common.api_keys import api_key
+from common.country_codes_mapping import country_currency_codes
+from common.data_types import CountryCode, CurrencyRate, PortfolioItem
+from db.database_functions import (
     subtract_amount_from_currency,
     add_amount_to_currency,
 )
